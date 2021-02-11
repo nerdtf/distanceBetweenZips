@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test Task</title>
+	<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+</head>
+<body>
+	<form action="index.php" method="post">
+		<label for="firstZip">Zip 1:</label>
+		<input type="text" name="firstZip" id="firstZip" placeholder="Enter first ZIP" required>
+		<label for="secondZip">Zip 2:</label>
+		<input type="text" name="secondZip" id="secondZip" placeholder="Enter second ZIP" required>
+		<input type="submit" value="Calculate distance">
+	</form>
+	<p style="width: 100px; height: 30px"></p>
+
+	<script type="text/javascript">
+    $(document).ready(function(){
+    	
+        $("form").submit(function(e){
+        	e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'script.php',
+                data:{firstZip:$('#firstZip').val() ,secondZip:$('#secondZip').val()},
+                success: function(data) {
+                	var parse = JSON.parse(data);
+                	if (parse.status == 'error') {
+                		$("p").css({'background-color':'#EF8EA7'});
+                		$("p").text(parse.message);                		
+                	}
+                	else{
+                		$('#firstZip').val(parse.firstCountry + ' , ' + parse.firstCity);
+                		$('#secondZip').val(parse.secondCountry + ' , ' + parse.secondCity);
+                		$("p").css({'background-color':'#8EEF9C', 'width':'250px'});                		
+                    	$("p").text('Distance: ' + parse.distance + ' m.');
+                	}
+                    
+
+                },
+                
+            });
+   });
+});
+</script>
+</body>
+</html>
