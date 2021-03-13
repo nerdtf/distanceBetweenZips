@@ -1,3 +1,3 @@
 # distanceBetweenZips
 
-Database from here ip2location.com
+Database from ip2location.com
